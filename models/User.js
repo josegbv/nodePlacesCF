@@ -11,8 +11,21 @@ let userSchema = new mongoose.Schema({
     admin: {
         type: Boolean,
         default: false
-    }
+    },
+    password: { type: String, required: true, bcrypt: true },
 });
+
+userSchema.post('save', function(user, next){
+    User.count({}).then(count=>{
+        if(count === 1){
+            User.update({"id":user._id}, {admin:true}).then(result=>{
+                next();
+            })
+        }else{
+            next()
+        }
+    })
+})
 
 userSchema.plugin(bcrypt);
 

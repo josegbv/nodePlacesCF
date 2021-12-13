@@ -5,16 +5,16 @@ var path = require('path');
 var logger = require('morgan');
 
 //modelos
-const Places = require('./models/Place')
+const Places = require('./models/Place');
+const Users = require('./models/User');
 
 //rutas
 const places = require('../api/routes/places')
+const users = require('../api/routes/users');
+const sessions = require('../api/routes/sessions')
 
 //base de datos
 const { dbConnection } = require('./config/database');
-
-
-
 
 
 
@@ -28,7 +28,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //inicio de las rutas
-app.use('/places', places)
+app.use('/places', places);
+app.use('/users', users);
+app.use('/session', sessions)
 
 
 
